@@ -1,0 +1,9 @@
+Building ForeverCoin
+
+See doc/readme-qt.rst for instructions on building ForeverCoin QT,
+the intended-for-end-users, nice-graphical-interface, reference
+implementation of ForeverCoin.
+
+See doc/build-*.txt for instructions on building forevercoind,
+the intended-for-services, no-graphical-interface, reference
+implementation of ForeverCoin.
