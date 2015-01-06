@@ -37,7 +37,7 @@ set<pair<COutPoint, unsigned int> > setStakeSeen;
 
 CBigNum bnProofOfStakeLimit(~uint256(0) >> 20);
 CBigNum bnProofOfStakeLimitV2(~uint256(0) >> 20);
-CBigNum bnMinDiff(~uint256(0) >> 20);
+CBigNum bnMinDiff(~uint256(0) >> 12);
 
 
 unsigned int nStakeMinAge = 8 * 60 * 60; // 8 hours
@@ -1062,7 +1062,7 @@ static unsigned int GetNextTargetRequired_2(const CBlockIndex* pindexLast, bool 
     if (pindexPrevPrev->pprev == NULL)
         return bnTargetLimit.GetCompact(); // second block
 
-    if (!fProofOfStake && pindexLast->nHeight > 2 && pindexLast->nHeight <=1199)
+    if (!fProofOfStake && pindexLast->nHeight > 2 && pindexLast->nHeight <=1000)
 	return bnMinDiff.GetCompact();
 	
     int64_t nTargetSpacing = GetTargetSpacing(pindexLast->nHeight);
