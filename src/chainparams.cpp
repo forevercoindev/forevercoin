@@ -48,14 +48,14 @@ public:
         // The message start string is designed to be unlikely to occur in normal data.
         // The characters are rarely used upper ASCII, not valid as UTF-8, and produce
         // a large 4-byte int at any alignment.
-        pchMessageStart[0] = 0x88;
+        pchMessageStart[0] = 0x87;
         pchMessageStart[1] = 0x88;
-        pchMessageStart[2] = 0x88;
-        pchMessageStart[3] = 0x88;
-        vAlertPubKey = ParseHex("045681c8dbe80889b4dc63871d98118767df8f89114f9a37f13ea5e37809ce7682b4a4a00242dcb46cff5a09757f03c6988d947d02a96d779d2bb4a797dc91aebb");
+        pchMessageStart[2] = 0x89;
+        pchMessageStart[3] = 0x90;
+        vAlertPubKey = ParseHex("04e120345923470dc15273cc4c0b9781f7ea7395da9f1f5ecdc0c51d2859ce2144afb25e3ce3158139cbf53abd7570e78759b09c6c77baf7a1284cc10bb5725fcc");
         nDefaultPort = 18714;
         nRPCPort = 18715;
-        bnProofOfWorkLimit = CBigNum(~uint256(0) >> 12);
+        bnProofOfWorkLimit = CBigNum(~uint256(0) >> 10);
 
         const char* pszTimestamp = "ForeverCoin 13 December 2014";
         CTransaction txNew;
@@ -70,11 +70,11 @@ public:
         genesis.nVersion = 1;
         genesis.nTime    = 1418428800;
         genesis.nBits    = bnProofOfWorkLimit.GetCompact();
-        genesis.nNonce   = 0xa89;
+        genesis.nNonce   = 0xc76;
 
         hashGenesisBlock = genesis.GetHash();
 
-        assert(hashGenesisBlock ==	 uint256("0x000332ffc3b83c3459adc4284c730acccf8d3989653c0956b503ed83ceed2b41"));
+        assert(hashGenesisBlock ==	 uint256("0x003dad41f30dc95aea940d60de3d47ee4e2ba8e7807ba6c46ed4f0da2e45abde"));
         assert(genesis.hashMerkleRoot == uint256("0x087113a8f83c790a13220f4673ea2ae39d2f3fe10d85b6ffe66cfc33870ddf30"));
 
         vSeeds.push_back(CDNSSeedData("beijing.forevercoin.co", "beijing.forevercoin.co"));
@@ -118,7 +118,7 @@ public:
         pchMessageStart[2] = 0x99;
         pchMessageStart[3] = 0x99;
         bnProofOfWorkLimit = CBigNum(~uint256(0) >> 16);
-        vAlertPubKey = ParseHex("045681c8dbe80889b4dc63871d98118767df8f89114f9a37f13ea5e37809ce7682b4a4a00242dcb46cff5a09757f03c6988d947d02a96d779d2bb4a797dc91aebb");
+        vAlertPubKey = ParseHex("04764d4d41b32693ebd2a03d7449a46f48d3f60dd183902003e4dd39adbee09c6233a0b2d0db75c8c9e0e8b2aba38c6d56557f0d03e7f148593d6cf89ed6c8ddd8");
         nDefaultPort = 17814;
         nRPCPort = 17815;
         strDataDir = "testnet";

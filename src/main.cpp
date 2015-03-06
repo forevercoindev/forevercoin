@@ -37,7 +37,7 @@ set<pair<COutPoint, unsigned int> > setStakeSeen;
 
 CBigNum bnProofOfStakeLimit(~uint256(0) >> 20);
 CBigNum bnProofOfStakeLimitV2(~uint256(0) >> 20);
-CBigNum bnMinDiff(~uint256(0) >> 12);
+CBigNum bnMinDiff(~uint256(0) >> 10);
 
 
 unsigned int nStakeMinAge = 8 * 60 * 60; // 8 hours
@@ -957,7 +957,7 @@ static CBigNum GetProofOfStakeLimit(int nHeight)
 // miner's coin base reward
 int64_t GetProofOfWorkReward(int64_t nFees)
 {
-    int64_t nSubsidy = 10500 * COIN;
+    int64_t nSubsidy = 105000 * COIN;
 
     LogPrint("creation", "GetProofOfWorkReward() : create=%s nSubsidy=%d\n", FormatMoney(nSubsidy), nSubsidy);
 
@@ -965,35 +965,18 @@ int64_t GetProofOfWorkReward(int64_t nFees)
 }
 
 // miner's coin stake reward based on coin age spent (coin-days)
-const int YEARLY_BLOCKCOUNT  = 493087;
+const int YEARLY_BLOCKCOUNT  = 262800;
 
 
 int64_t GetProofOfStakeReward(int64_t nCoinAge, int64_t nFees)
 {
-    double nRewardCoinYear = COIN_YEAR_REWARD;
-    if ((pindexBest->nHeight > 5 * YEARLY_BLOCKCOUNT) && (pindexBest->nHeight <= 10 * YEARLY_BLOCKCOUNT)){
-        nRewardCoinYear = COIN_YEAR_REWARD/2;
-    }else if((pindexBest->nHeight > 10 * YEARLY_BLOCKCOUNT) && (pindexBest->nHeight <= 15 * YEARLY_BLOCKCOUNT)){
-        nRewardCoinYear = COIN_YEAR_REWARD/4;
-    }else if((pindexBest->nHeight > 15 * YEARLY_BLOCKCOUNT) && (pindexBest->nHeight <= 20 * YEARLY_BLOCKCOUNT)){
-        nRewardCoinYear = COIN_YEAR_REWARD/8;
-    }else if((pindexBest->nHeight > 20 * YEARLY_BLOCKCOUNT) && (pindexBest->nHeight <= 25 * YEARLY_BLOCKCOUNT)){
-        nRewardCoinYear = COIN_YEAR_REWARD/16;
-    }else if((pindexBest->nHeight > 25 * YEARLY_BLOCKCOUNT) && (pindexBest->nHeight <= 30 * YEARLY_BLOCKCOUNT)){
-        nRewardCoinYear = COIN_YEAR_REWARD/32;
-    }else if((pindexBest->nHeight > 30 * YEARLY_BLOCKCOUNT) && (pindexBest->nHeight <= 35 * YEARLY_BLOCKCOUNT)){
-        nRewardCoinYear = COIN_YEAR_REWARD/64;
-    }else if((pindexBest->nHeight > 35 * YEARLY_BLOCKCOUNT) && (pindexBest->nHeight <= 40 * YEARLY_BLOCKCOUNT)){
-        nRewardCoinYear = COIN_YEAR_REWARD/128;
-    }else if((pindexBest->nHeight > 40 * YEARLY_BLOCKCOUNT) && (pindexBest->nHeight <= 45 * YEARLY_BLOCKCOUNT)){
-        nRewardCoinYear = COIN_YEAR_REWARD/256;
-    }else if((pindexBest->nHeight > 45 * YEARLY_BLOCKCOUNT) && (pindexBest->nHeight <= 50 * YEARLY_BLOCKCOUNT)){
-        nRewardCoinYear = COIN_YEAR_REWARD/512;
-    }else if(pindexBest->nHeight > 50 * YEARLY_BLOCKCOUNT){
-        nRewardCoinYear = COIN_YEAR_REWARD/1024;
-    }
-    int64_t nSubsidy = nCoinAge * nRewardCoinYear * 33 / (365 * 33 + 8);
-    LogPrint("creation", "GetProofOfStakeReward(): create=%s nCoinAge=%d\n", FormatMoney(nSubsidy), nCoinAge);
+
+    int64_t nCoinYearReward = pow(0.63,((pindexBest->nHeight-1)/YEARLY_BLOCKCOUNT)) * COIN_YEAR_REWARD;
+
+    int64_t nSubsidy = nCoinAge * nCoinYearReward * 33 / (365 * 33 + 8);
+
+    if (fDebug && GetBoolArg("-printcreation", false))
+        printf("GetProofOfStakeReward(): create=%s nCoinAge=%lld nSubsidy=%lld nCoinYearReward=%lld\n", FormatMoney(nSubsidy).c_str(), nCoinAge, nSubsidy, nCoinYearReward);
 
     return nSubsidy + nFees;
 }
