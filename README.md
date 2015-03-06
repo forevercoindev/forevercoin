@@ -1,9 +1,9 @@
 What is ForeverCoin?
 ----------------
 ForeverCoin is a lite version of peercoin using a proof-of-stake algorithm.+
-  - 64 seconds block targets
-  - Stake Interest 7% annually
-  - Interest reduction by 50% every 5 years
+  - 120 seconds block targets
+  - Stake Interest 28% annually
+  - Interest reduction by 37% every year
 
         nDefaultPort = 18714;
         nRPCPort = 18715;
