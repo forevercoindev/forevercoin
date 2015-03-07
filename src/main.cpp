@@ -974,9 +974,7 @@ int64_t GetProofOfStakeReward(int64_t nCoinAge, int64_t nFees)
     int64_t nCoinYearReward = pow(0.63,((pindexBest->nHeight-1)/YEARLY_BLOCKCOUNT)) * COIN_YEAR_REWARD;
 
     int64_t nSubsidy = nCoinAge * nCoinYearReward * 33 / (365 * 33 + 8);
-
-    if (fDebug && GetBoolArg("-printcreation", false))
-        printf("GetProofOfStakeReward(): create=%s nCoinAge=%lld nSubsidy=%lld nCoinYearReward=%lld\n", FormatMoney(nSubsidy).c_str(), nCoinAge, nSubsidy, nCoinYearReward);
+    LogPrint("creation", "GetProofOfStakeReward(): create=%s nCoinAge=%lld nSubsidy=%d nCoinYearReward=%d\n", FormatMoney(nSubsidy).c_str(), nCoinAge, nSubsidy, nCoinYearReward);
 
     return nSubsidy + nFees;
 }
@@ -2046,7 +2044,7 @@ bool CBlock::AcceptBlock()
     if (GetBlockTime() > FutureDrift((int64_t)vtx[0].nTime, nHeight))
         return DoS(50, error("AcceptBlock() : coinbase timestamp is too early"));
 
-    // Check coinstake timestamp
+    // Check coinstake timestamp //todo: check me
     if (IsProofOfStake() && !CheckCoinStakeTimestamp(nHeight, GetBlockTime(), (int64_t)vtx[1].nTime))
         return DoS(50, error("AcceptBlock() : coinstake timestamp violation nTimeBlock=%d nTimeTx=%u", GetBlockTime(), vtx[1].nTime));
 
